@@ -1,0 +1,27 @@
+// ============================================
+// APP.SCSS - Componente Principal
+// ============================================
+
+@use 'sass:map';
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// Estilos globais do app
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: color('bg-primary');
+}
+
+// Container principal
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Main content
+.app-main {
+  flex: 1;
+  padding-top: 80px; // Altura do header fixo
+}

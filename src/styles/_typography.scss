@@ -1,0 +1,205 @@
+// ============================================
+// TIPOGRAFIA - WAIVA SOLUTIONS
+// ============================================
+
+@use 'variables' as *;
+
+// IMPORT DE FONTES
+// ============================================
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+// RESET TIPOGRÁFICO
+// ============================================
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// CLASSES BASE DE TIPOGRAFIA
+// ============================================
+
+// Body text
+.text-body {
+  font-family: map-get($font-family, 'primary');
+  font-size: map-get($font-sizes, 'base');
+  font-weight: map-get($font-weights, 'normal');
+  line-height: map-get($line-heights, 'normal');
+  color: color('gray');
+}
+
+// HEADINGS
+// ============================================
+
+@mixin heading-base {
+  font-family: map-get($font-family, 'heading');
+  font-weight: map-get($font-weights, 'bold');
+  line-height: map-get($line-heights, 'tight');
+  color: color('dark');
+  margin: 0;
+}
+
+.heading-1,
+h1 {
+  @include heading-base;
+  font-size: map-get($font-sizes, '4xl');
+  font-weight: map-get($font-weights, 'extrabold');
+  letter-spacing: -0.02em;
+
+  @media (min-width: breakpoint('md')) {
+    font-size: map-get($font-sizes, '5xl');
+  }
+
+  @media (min-width: breakpoint('lg')) {
+    font-size: map-get($font-sizes, '6xl');
+  }
+
+  @media (min-width: breakpoint('xl')) {
+    font-size: map-get($font-sizes, '7xl');
+  }
+}
+
+.heading-2,
+h2 {
+  @include heading-base;
+  font-size: map-get($font-sizes, '3xl');
+  font-weight: map-get($font-weights, 'bold');
+
+  @media (min-width: breakpoint('md')) {
+    font-size: map-get($font-sizes, '4xl');
+  }
+
+  @media (min-width: breakpoint('lg')) {
+    font-size: map-get($font-sizes, '5xl');
+  }
+}
+
+.heading-3,
+h3 {
+  @include heading-base;
+  font-size: map-get($font-sizes, '2xl');
+  font-weight: map-get($font-weights, 'bold');
+
+  @media (min-width: breakpoint('md')) {
+    font-size: map-get($font-sizes, '3xl');
+  }
+}
+
+.heading-4,
+h4 {
+  @include heading-base;
+  font-size: map-get($font-sizes, 'xl');
+  font-weight: map-get($font-weights, 'semibold');
+
+  @media (min-width: breakpoint('md')) {
+    font-size: map-get($font-sizes, '2xl');
+  }
+}
+
+.heading-5,
+h5 {
+  @include heading-base;
+  font-size: map-get($font-sizes, 'lg');
+  font-weight: map-get($font-weights, 'semibold');
+
+  @media (min-width: breakpoint('md')) {
+    font-size: map-get($font-sizes, 'xl');
+  }
+}
+
+.heading-6,
+h6 {
+  @include heading-base;
+  font-size: map-get($font-sizes, 'base');
+  font-weight: map-get($font-weights, 'semibold');
+
+  @media (min-width: breakpoint('md')) {
+    font-size: map-get($font-sizes, 'lg');
+  }
+}
+
+// VARIAÇÕES DE TAMANHO DE TEXTO
+// ============================================
+
+.text-xs { font-size: map-get($font-sizes, 'xs'); }
+.text-sm { font-size: map-get($font-sizes, 'sm'); }
+.text-base { font-size: map-get($font-sizes, 'base'); }
+.text-lg { font-size: map-get($font-sizes, 'lg'); }
+.text-xl { font-size: map-get($font-sizes, 'xl'); }
+.text-2xl { font-size: map-get($font-sizes, '2xl'); }
+.text-3xl { font-size: map-get($font-sizes, '3xl'); }
+.text-4xl { font-size: map-get($font-sizes, '4xl'); }
+.text-5xl { font-size: map-get($font-sizes, '5xl'); }
+.text-6xl { font-size: map-get($font-sizes, '6xl'); }
+
+// PESOS DE FONTE
+// ============================================
+
+.font-light { font-weight: map-get($font-weights, 'light'); }
+.font-normal { font-weight: map-get($font-weights, 'normal'); }
+.font-medium { font-weight: map-get($font-weights, 'medium'); }
+.font-semibold { font-weight: map-get($font-weights, 'semibold'); }
+.font-bold { font-weight: map-get($font-weights, 'bold'); }
+.font-extrabold { font-weight: map-get($font-weights, 'extrabold'); }
+
+// ALTURA DE LINHA
+// ============================================
+
+.leading-tight { line-height: map-get($line-heights, 'tight'); }
+.leading-normal { line-height: map-get($line-heights, 'normal'); }
+.leading-relaxed { line-height: map-get($line-heights, 'relaxed'); }
+.leading-loose { line-height: map-get($line-heights, 'loose'); }
+
+// CORES DE TEXTO
+// ============================================
+
+.text-primary { color: color('primary'); }
+.text-secondary { color: color('secondary'); }
+.text-dark { color: color('dark'); }
+.text-gray { color: color('gray'); }
+.text-light-gray { color: color('light-gray'); }
+.text-white { color: color('white'); }
+.text-success { color: color('success'); }
+.text-warning { color: color('warning'); }
+.text-error { color: color('error'); }
+
+// ESTILOS DE TEXTO
+// ============================================
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+.text-italic { font-style: italic; }
+.text-underline { text-decoration: underline; }
+.text-line-through { text-decoration: line-through; }
+.text-no-underline { text-decoration: none; }
+
+// GRADIENT TEXT (para headlines especiais)
+// ============================================
+
+.text-gradient {
+  background: linear-gradient(
+                  135deg,
+                  color('primary') 0%,
+                  color('secondary') 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(
+                  135deg,
+                  color('bg-gradient-start') 0%,
+                  color('bg-gradient-end') 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

@@ -1,0 +1,53 @@
+<section class="section">
+    <div class="container">
+
+        <div class="comparison-wrapper">
+
+            <div class="compare-card card-before animate-slide-in-left">
+                <div class="card-header">
+                    <h3 class="card-title">{{ beforeData().title }}</h3>
+                    <div class="stat-block">
+                        <span class="stat-number">{{ beforeData().highlight }}</span>
+                        <span class="stat-label">{{ beforeData().subHighlight }}</span>
+                    </div>
+                </div>
+
+                <ul class="points-list">
+                    @for (point of beforeData().points; track point.text) {
+                        <li class="point-item">
+              <span class="icon-box icon-negative">
+                <i class="bi bi-x-lg"></i>
+              </span>
+                            <span class="point-text">{{ point.text }}</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="compare-card card-after animate-slide-in-right delay-200">
+                <div class="card-header">
+                    <h3 class="card-title">{{ afterData().title }}</h3>
+                    <div class="stat-block">
+                        <span class="stat-number">{{ afterData().highlight }}</span>
+                        <span class="stat-label">{{ afterData().subHighlight }}</span>
+                    </div>
+                </div>
+
+                <ul class="points-list">
+                    @for (point of afterData().points; track point.text) {
+                        <li class="point-item">
+              <span class="icon-box icon-positive">
+                <i class="bi bi-check-lg"></i>
+              </span>
+                            <span class="point-text">{{ point.text }}</span>
+                        </li>
+                    }
+                </ul>
+
+                <div class="glow-effect"></div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,249 @@
+// ============================================
+// STYLES.SCSS - Arquivo Principal
+// WAIVA SOLUTIONS
+// ============================================
+
+
+@use 'bootstrap-icons/font/bootstrap-icons.css';
+
+
+@use 'sass:map';
+// IMPORTANTE: Angular 19+ usa @use em vez de @import
+// @use carrega cada arquivo uma única vez e cria namespaces
+
+// 1. VARIÁVEIS (sempre primeiro)
+@use 'styles/variables' as *;
+
+// 2. MIXINS
+@use 'mixins' as *;
+
+// 3. TIPOGRAFIA
+@use 'typography';
+
+// 4. ANIMAÇÕES
+@use 'animations';
+
+// 5. UTILITIES
+@use 'utilities';
+
+// ============================================
+// RESET & BASE STYLES
+// ============================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: map.get($font-family, 'primary');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'normal');
+  line-height: map.get($line-heights, 'normal');
+  color: color('gray');
+  background-color: color('white');
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+// ============================================
+// LINKS
+// ============================================
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  &:hover {
+    color: color('primary');
+  }
+}
+
+// ============================================
+// BUTTONS
+// ============================================
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+// ============================================
+// IMAGES
+// ============================================
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// ============================================
+// FORMS
+// ============================================
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+input,
+textarea {
+  &::placeholder {
+    color: color('gray');
+    opacity: 0.6;
+  }
+}
+
+// ============================================
+// SCROLLBAR CUSTOMIZADA
+// ============================================
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: color('lighter-gray');
+}
+
+::-webkit-scrollbar-thumb {
+  background: color('gray');
+  border-radius: map.get($border-radius, 'full');
+
+  &:hover {
+    background: color('dark-gray');
+  }
+}
+
+// ============================================
+// SELECTION
+// ============================================
+
+::selection {
+  background-color: color('primary-light');
+  color: color('white');
+}
+
+::-moz-selection {
+  background-color: color('primary-light');
+  color: color('white');
+}
+
+// ============================================
+// FOCUS VISIBLE (acessibilidade)
+// ============================================
+
+:focus-visible {
+  outline: 2px solid color('primary');
+  outline-offset: 2px;
+}
+
+// ============================================
+// UTILITY CLASSES GLOBAIS
+// ============================================
+
+// Container principal
+.app-container {
+  @include container;
+}
+
+// Seção padrão
+.app-section {
+  padding: spacing('4xl') 0;
+
+  @include respond-to('md') {
+    padding: spacing('5xl') 0;
+  }
+}
+
+// Fundo escuro
+.bg-dark-section {
+  background-color: color('bg-dark');
+  color: color('white');
+
+  h1, h2, h3, h4, h5, h6 {
+    color: color('white');
+  }
+}
+
+// ============================================
+// COMPONENTES GLOBAIS
+// ============================================
+
+// Botão Primário
+.btn-primary {
+  @include button-primary;
+}
+
+// Botão Secundário
+.btn-secondary {
+  @include button-secondary;
+}
+
+// Botão Ghost
+.btn-ghost {
+  @include button-ghost;
+}
+
+// Card
+.card {
+  @include card;
+
+  &.card-hover {
+    @include card-hover;
+  }
+}
+
+// ============================================
+// GRADIENTES PRÉ-DEFINIDOS
+// ============================================
+
+.gradient-text {
+  background: linear-gradient(
+                  135deg,
+                  color('primary') 0%,
+                  color('secondary') 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  @include gradient-primary;
+}
+
+// ============================================
+// HELPERS
+// ============================================
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}

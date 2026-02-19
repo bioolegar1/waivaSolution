@@ -1,0 +1,29 @@
+<section class="section bg-primary-solid">
+    <div class="container">
+
+        <div class="cards-grid">
+            @for (item of capabilities(); track item.title; let i = $index) {
+                <article
+                        class="glass-card animate-fade-in-up"
+                        [style.animation-delay]="(i * 150) + 'ms'">
+
+                    <div class="card-media mb-lg">
+                        <div class="placeholder-img" [style.background]="item.imageGradient">
+                            <span class="img-label">IMG REFERÊNCIA</span>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <h3 class="heading-4 text-white mb-sm">{{ item.title }}</h3>
+
+                        <p class="text-body text-light-blue">
+                            {{ item.description }}
+                        </p>
+                    </div>
+
+                </article>
+            }
+        </div>
+
+    </div>
+</section>

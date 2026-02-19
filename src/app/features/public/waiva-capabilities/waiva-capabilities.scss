@@ -1,0 +1,103 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'animations' as *;
+
+// 1. Fundo da Seção (Azul Sólido Vibrante)
+// Isso deve conectar visualmente com o final do gradiente do componente anterior
+.bg-primary-solid {
+  background-color: color('primary');
+  // Adicionei um padding extra para respirar, como na imagem
+  padding-top: spacing('5xl');
+  padding-bottom: spacing('5xl');
+}
+
+// 2. Grid System
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: spacing('xl');
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(3, 1fr); // 3 Cards lado a lado
+  }
+}
+
+// 3. O Card "Glassmorphism"
+.glass-card {
+  position: relative;
+  // Fundo translúcido (Branco com 10% de opacidade)
+  background: rgba(255, 255, 255, 0.1);
+  // Borda muito sutil para definir o limite
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: map.get($border-radius, 'xl');
+  padding: spacing('lg'); // Padding interno igual da imagem
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(10px); // Desfoque do fundo (efeito vidro fosco)
+
+  // Hover Effect Moderno
+  &:hover {
+    background: rgba(255, 255, 255, 0.15); // Fica um pouco mais claro
+    transform: translateY(-8px); // Sobe
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); // Sombra escura para contraste
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+// 4. Área da Mídia (Onde vai a imagem)
+.card-media {
+  width: 100%;
+  // Aspect Ratio retangular como na imagem (aprox 16:10)
+  aspect-ratio: 16 / 10;
+  border-radius: map.get($border-radius, 'lg');
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  // Placeholder para simular as imagens da referência
+  .placeholder-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .img-label {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+  }
+
+  // Quando você colocar a tag <img> real:
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Garante que a imagem preencha sem distorcer
+    transition: transform 0.6s ease;
+  }
+}
+
+// Efeito de zoom na imagem ao passar o mouse no card
+.glass-card:hover .card-media img {
+  transform: scale(1.05);
+}
+
+// 5. Tipografia Específica
+.heading-4 {
+  // Sobrescrevendo a cor do h4 para Branco neste contexto
+  color: color('white');
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.text-light-blue {
+  // Um tom de azul muito claro, quase branco, para o texto descritivo
+  // Isso cansa menos a vista do que branco puro (#FFF) no fundo azul
+  color: #dbeafe;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}

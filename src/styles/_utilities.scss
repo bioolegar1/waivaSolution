@@ -1,0 +1,332 @@
+// ============================================
+// UTILITIES - WAIVA SOLUTIONS
+// ============================================
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// DISPLAY
+// ============================================
+
+.block { display: block; }
+.inline-block { display: inline-block; }
+.inline { display: inline; }
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.hidden { display: none; }
+
+// FLEXBOX
+// ============================================
+
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.justify-evenly { justify-content: space-evenly; }
+
+.flex-1 { flex: 1 1 0; }
+.flex-auto { flex: 1 1 auto; }
+.flex-initial { flex: 0 1 auto; }
+.flex-none { flex: none; }
+
+.gap-xs { gap: spacing('xs'); }
+.gap-sm { gap: spacing('sm'); }
+.gap-md { gap: spacing('md'); }
+.gap-lg { gap: spacing('lg'); }
+.gap-xl { gap: spacing('xl'); }
+.gap-2xl { gap: spacing('2xl'); }
+.gap-3xl { gap: spacing('3xl'); }
+
+// GRID
+// ============================================
+
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+
+// PADDING
+// ============================================
+
+.p-0 { padding: 0; }
+.p-xs { padding: spacing('xs'); }
+.p-sm { padding: spacing('sm'); }
+.p-md { padding: spacing('md'); }
+.p-lg { padding: spacing('lg'); }
+.p-xl { padding: spacing('xl'); }
+.p-2xl { padding: spacing('2xl'); }
+.p-3xl { padding: spacing('3xl'); }
+.p-4xl { padding: spacing('4xl'); }
+.p-5xl { padding: spacing('5xl'); }
+
+// Padding Horizontal
+.px-0 { padding-left: 0; padding-right: 0; }
+.px-xs { padding-left: spacing('xs'); padding-right: spacing('xs'); }
+.px-sm { padding-left: spacing('sm'); padding-right: spacing('sm'); }
+.px-md { padding-left: spacing('md'); padding-right: spacing('md'); }
+.px-lg { padding-left: spacing('lg'); padding-right: spacing('lg'); }
+.px-xl { padding-left: spacing('xl'); padding-right: spacing('xl'); }
+.px-2xl { padding-left: spacing('2xl'); padding-right: spacing('2xl'); }
+.px-3xl { padding-left: spacing('3xl'); padding-right: spacing('3xl'); }
+
+// Padding Vertical
+.py-0 { padding-top: 0; padding-bottom: 0; }
+.py-xs { padding-top: spacing('xs'); padding-bottom: spacing('xs'); }
+.py-sm { padding-top: spacing('sm'); padding-bottom: spacing('sm'); }
+.py-md { padding-top: spacing('md'); padding-bottom: spacing('md'); }
+.py-lg { padding-top: spacing('lg'); padding-bottom: spacing('lg'); }
+.py-xl { padding-top: spacing('xl'); padding-bottom: spacing('xl'); }
+.py-2xl { padding-top: spacing('2xl'); padding-bottom: spacing('2xl'); }
+.py-3xl { padding-top: spacing('3xl'); padding-bottom: spacing('3xl'); }
+.py-4xl { padding-top: spacing('4xl'); padding-bottom: spacing('4xl'); }
+.py-5xl { padding-top: spacing('5xl'); padding-bottom: spacing('5xl'); }
+
+// Padding Individual
+.pt-0 { padding-top: 0; }
+.pt-md { padding-top: spacing('md'); }
+.pt-lg { padding-top: spacing('lg'); }
+.pt-xl { padding-top: spacing('xl'); }
+.pt-2xl { padding-top: spacing('2xl'); }
+.pt-3xl { padding-top: spacing('3xl'); }
+.pt-4xl { padding-top: spacing('4xl'); }
+.pt-5xl { padding-top: spacing('5xl'); }
+
+.pb-0 { padding-bottom: 0; }
+.pb-md { padding-bottom: spacing('md'); }
+.pb-lg { padding-bottom: spacing('lg'); }
+.pb-xl { padding-bottom: spacing('xl'); }
+.pb-2xl { padding-bottom: spacing('2xl'); }
+.pb-3xl { padding-bottom: spacing('3xl'); }
+.pb-4xl { padding-bottom: spacing('4xl'); }
+.pb-5xl { padding-bottom: spacing('5xl'); }
+
+// MARGIN
+// ============================================
+
+.m-0 { margin: 0; }
+.m-auto { margin: auto; }
+.m-xs { margin: spacing('xs'); }
+.m-sm { margin: spacing('sm'); }
+.m-md { margin: spacing('md'); }
+.m-lg { margin: spacing('lg'); }
+.m-xl { margin: spacing('xl'); }
+.m-2xl { margin: spacing('2xl'); }
+.m-3xl { margin: spacing('3xl'); }
+
+// Margin Horizontal
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mx-0 { margin-left: 0; margin-right: 0; }
+.mx-xs { margin-left: spacing('xs'); margin-right: spacing('xs'); }
+.mx-sm { margin-left: spacing('sm'); margin-right: spacing('sm'); }
+.mx-md { margin-left: spacing('md'); margin-right: spacing('md'); }
+.mx-lg { margin-left: spacing('lg'); margin-right: spacing('lg'); }
+.mx-xl { margin-left: spacing('xl'); margin-right: spacing('xl'); }
+
+// Margin Vertical
+.my-0 { margin-top: 0; margin-bottom: 0; }
+.my-xs { margin-top: spacing('xs'); margin-bottom: spacing('xs'); }
+.my-sm { margin-top: spacing('sm'); margin-bottom: spacing('sm'); }
+.my-md { margin-top: spacing('md'); margin-bottom: spacing('md'); }
+.my-lg { margin-top: spacing('lg'); margin-bottom: spacing('lg'); }
+.my-xl { margin-top: spacing('xl'); margin-bottom: spacing('xl'); }
+.my-2xl { margin-top: spacing('2xl'); margin-bottom: spacing('2xl'); }
+.my-3xl { margin-top: spacing('3xl'); margin-bottom: spacing('3xl'); }
+
+// Margin Individual
+.mt-0 { margin-top: 0; }
+.mt-md { margin-top: spacing('md'); }
+.mt-lg { margin-top: spacing('lg'); }
+.mt-xl { margin-top: spacing('xl'); }
+.mt-2xl { margin-top: spacing('2xl'); }
+.mt-3xl { margin-top: spacing('3xl'); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-md { margin-bottom: spacing('md'); }
+.mb-lg { margin-bottom: spacing('lg'); }
+.mb-xl { margin-bottom: spacing('xl'); }
+.mb-2xl { margin-bottom: spacing('2xl'); }
+.mb-3xl { margin-bottom: spacing('3xl'); }
+
+// WIDTH & HEIGHT
+// ============================================
+
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+.w-screen { width: 100vw; }
+.w-fit { width: fit-content; }
+
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+.h-screen { height: 100vh; }
+.h-fit { height: fit-content; }
+
+.min-h-screen { min-height: 100vh; }
+.max-w-screen { max-width: 100vw; }
+
+// POSITION
+// ============================================
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// OVERFLOW
+// ============================================
+
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-scroll { overflow: scroll; }
+.overflow-visible { overflow: visible; }
+
+.overflow-x-hidden { overflow-x: hidden; }
+.overflow-y-hidden { overflow-y: hidden; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+// Z-INDEX
+// ============================================
+
+.z-base { z-index: map-get($z-index, 'base'); }
+.z-dropdown { z-index: map-get($z-index, 'dropdown'); }
+.z-sticky { z-index: map-get($z-index, 'sticky'); }
+.z-fixed { z-index: map-get($z-index, 'fixed'); }
+.z-modal { z-index: map-get($z-index, 'modal'); }
+
+// BACKGROUND
+// ============================================
+
+.bg-primary { background-color: color('primary'); }
+.bg-secondary { background-color: color('secondary'); }
+.bg-white { background-color: color('white'); }
+.bg-dark { background-color: color('dark'); }
+.bg-gray { background-color: color('lighter-gray'); }
+.bg-transparent { background-color: transparent; }
+
+.bg-gradient {
+  @include gradient-primary;
+}
+
+// BORDER
+// ============================================
+
+.border { border: 1px solid color('light-gray'); }
+.border-0 { border: none; }
+.border-2 { border-width: 2px; }
+
+.border-t { border-top: 1px solid color('light-gray'); }
+.border-r { border-right: 1px solid color('light-gray'); }
+.border-b { border-bottom: 1px solid color('light-gray'); }
+.border-l { border-left: 1px solid color('light-gray'); }
+
+// Border Radius
+.rounded-none { border-radius: 0; }
+.rounded-sm { border-radius: map-get($border-radius, 'sm'); }
+.rounded-md { border-radius: map-get($border-radius, 'md'); }
+.rounded-lg { border-radius: map-get($border-radius, 'lg'); }
+.rounded-xl { border-radius: map-get($border-radius, 'xl'); }
+.rounded-2xl { border-radius: map-get($border-radius, '2xl'); }
+.rounded-full { border-radius: map-get($border-radius, 'full'); }
+
+// SHADOW
+// ============================================
+
+.shadow-none { box-shadow: none; }
+.shadow-sm { box-shadow: map-get($shadows, 'sm'); }
+.shadow-md { box-shadow: map-get($shadows, 'md'); }
+.shadow-lg { box-shadow: map-get($shadows, 'lg'); }
+.shadow-xl { box-shadow: map-get($shadows, 'xl'); }
+.shadow-2xl { box-shadow: map-get($shadows, '2xl'); }
+.shadow-glow { box-shadow: map-get($shadows, 'glow'); }
+
+// OPACITY
+// ============================================
+
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+// CURSOR
+// ============================================
+
+.cursor-auto { cursor: auto; }
+.cursor-pointer { cursor: pointer; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+
+// POINTER EVENTS
+// ============================================
+
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+
+// USER SELECT
+// ============================================
+
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+
+// OBJECT FIT
+// ============================================
+
+.object-contain { object-fit: contain; }
+.object-cover { object-fit: cover; }
+.object-fill { object-fit: fill; }
+.object-none { object-fit: none; }
+
+// CONTAINER
+// ============================================
+
+.container {
+  @include container;
+}
+
+// SECTION
+// ============================================
+
+.section {
+  padding-top: spacing('4xl');
+  padding-bottom: spacing('4xl');
+
+  @include respond-to('md') {
+    padding-top: spacing('5xl');
+    padding-bottom: spacing('5xl');
+  }
+}
+
+// VISUALLY HIDDEN (acessibilidade)
+// ============================================
+
+.sr-only {
+  @include visually-hidden;
+}

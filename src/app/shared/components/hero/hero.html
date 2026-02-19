@@ -1,0 +1,60 @@
+<section class="hero">
+    <div class="hero-glow"></div>
+
+    <div class="container hero-grid">
+        <div class="hero-content">
+            <h2 class="fixed-headline">
+                <span class="weight-light">Quanto </span> <span class="weight-bold"> dinheiro </span>
+                <span class="weight-light">sua empresa </span> <span class="weight-bold text-error"> perde </span>
+                <span class="weight-light"> com atendimento lento e processos desorganizados?</span>
+            </h2>
+
+            <h1 class="animated-subheadline">
+                IA e automação aplicadas a processos para
+                <div class="rotating-text-wrapper">
+                    @for (phrase of phrases; track $index) {
+                        <span class="rotating-phrase" [class.active]="$index === activePhraseIndex()">
+              {{ phrase }}
+            </span>
+                    }
+                </div>
+            </h1>
+        </div>
+
+        <div class="hero-card-container">
+            <div class="hero-card-premium branded-border">
+                <div class="card-header">
+                    <h3>Fale com um especialista</h3>
+                    <p>Diagnóstico estratégico em poucos minutos.</p>
+                </div>
+
+                <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
+                    <div class="input-group">
+                        <label for="nome">Nome</label>
+                        <input #nameInput id="nome" type="text" formControlName="nome" placeholder="Seu nome">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">E-mail Corporativo</label>
+                        <input id="email" type="email" formControlName="email" placeholder="email@empresa.com">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="contato">WhatsApp</label>
+                        <input id="contato" type="text" formControlName="contato"
+                               placeholder="(99) 99999-9999" (input)="onPhoneInput($event)" maxlength="15">
+                    </div>
+
+                    <button type="submit" class="btn-submit-premium" [disabled]="leadForm.invalid">
+                        Enviar Solicitação
+                    </button>
+
+                    <div class="secure-footer">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <span>Dados protegidos pela Waiva</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

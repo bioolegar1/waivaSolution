@@ -1,0 +1,304 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================
+// HEADER
+// ============================================
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: map.get($z-index, 'fixed') + 1;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all map.get($transitions, 'base') map.get($easings, 'smooth');
+  border-bottom: 1px solid transparent;
+
+  // Estado scrolled (adiciona sombra)
+  &--scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: map.get($shadows, 'md');
+    border-bottom-color: rgba(color('light-gray'), 0.3);
+  }
+}
+
+// Container do header
+.header__container {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  gap: spacing('lg');
+}
+
+// ============================================
+// LOGO
+// ============================================
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  svg {
+    height: 40px;
+    width: auto;
+  }
+
+  .logo-text {
+    font-family: map.get($font-family, 'heading');
+    font-size: 28px;
+    font-weight: map.get($font-weights, 'extrabold');
+    fill: color('primary');
+  }
+}
+
+// ============================================
+// NAVIGATION DESKTOP
+// ============================================
+
+.header__nav {
+  display: none;
+
+  @include respond-to('lg') {
+    display: block;
+    flex: 1;
+    margin-left: spacing('3xl');
+  }
+}
+
+.header__menu {
+  display: flex;
+  align-items: center;
+  gap: spacing('xl');
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__menu-item {
+  margin: 0;
+}
+
+.header__menu-link {
+  position: relative;
+  display: block;
+  padding: spacing('sm') spacing('md');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'medium');
+  color: color('dark-gray');
+  text-decoration: none;
+  transition: color map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  // Underline effect
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: color('primary');
+    transform: translateX(-50%);
+    transition: width map.get($transitions, 'base') map.get($easings, 'smooth');
+  }
+
+  &:hover {
+    color: color('primary');
+
+    &::after {
+      width: 80%;
+    }
+  }
+}
+
+// ============================================
+// ACTIONS (CTA Desktop)
+// ============================================
+
+.header__actions {
+  display: none;
+
+  @include respond-to('lg') {
+    display: flex;
+    align-items: center;
+    gap: spacing('md');
+  }
+
+  .btn-primary {
+    padding: spacing('sm') spacing('xl');
+    font-size: map.get($font-sizes, 'sm');
+  }
+}
+
+// ============================================
+// MOBILE TOGGLE BUTTON
+// ============================================
+
+.header__mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: map.get($z-index, 'fixed') + 1;
+
+  @include respond-to('lg') {
+    display: none;
+  }
+}
+
+.header__mobile-toggle-icon {
+  position: relative;
+  width: 24px;
+  height: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: color('dark');
+    border-radius: 2px;
+    transition: all map.get($transitions, 'base') map.get($easings, 'smooth');
+    transform-origin: center;
+  }
+
+  // Animação do hamburger para X
+  &--open {
+    span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+  }
+}
+
+// ============================================
+// MOBILE MENU
+// ============================================
+
+.header__mobile-menu {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  width: 100%;
+  max-width: 320px;
+  height: calc(100vh - 80px);
+  background: color('white');
+  box-shadow: map.get($shadows, 'xl');
+  transform: translateX(100%);
+  transition: transform map.get($transitions, 'base') map.get($easings, 'smooth');
+  z-index: map.get($z-index, 'fixed');
+  overflow-y: auto;
+
+  @include respond-to('lg') {
+    display: none;
+  }
+
+  &--open {
+    transform: translateX(0);
+  }
+}
+
+.header__mobile-nav {
+  padding: spacing('2xl');
+  display: flex;
+  flex-direction: column;
+  gap: spacing('2xl');
+}
+
+.header__mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: spacing('xs');
+}
+
+.header__mobile-menu-item {
+  margin: 0;
+}
+
+.header__mobile-menu-link {
+  display: block;
+  padding: spacing('md') spacing('lg');
+  font-size: map.get($font-sizes, 'lg');
+  font-weight: map.get($font-weights, 'medium');
+  color: color('dark-gray');
+  text-decoration: none;
+  border-radius: map.get($border-radius, 'lg');
+  transition: all map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  &:hover {
+    background: color('lighter-gray');
+    color: color('primary');
+  }
+}
+
+.header__mobile-cta {
+  padding-top: spacing('lg');
+  border-top: 1px solid color('light-gray');
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// ============================================
+// OVERLAY (Mobile Menu)
+// ============================================
+
+.header__overlay {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(color('dark'), 0.6);
+  backdrop-filter: blur(4px);
+  z-index: map.get($z-index, 'fixed') - 1;
+  animation: fadeIn map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  @include respond-to('lg') {
+    display: none;
+  }
+}
+
+// ============================================
+// ANIMAÇÕES
+// ============================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

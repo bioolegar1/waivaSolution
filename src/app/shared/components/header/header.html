@@ -1,0 +1,79 @@
+<header class="header" [class.header--scrolled]="isScrolled()"
+>
+    <div class="header__container">
+        <a href="#home" class="header__logo" (click)="scrollToSection($event, 'home')">
+            <svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="30" class="logo-text"> WAIVA</text>
+            </svg>
+        </a>
+
+
+        <!--NAVIGATION DESKTOP-->
+        <nav class="header__nav">
+            <ul class="header__menu ">
+                @for (item of menuItems; track item.link){
+                <li class="header__menu-item">
+                    <a [href]="item.link" class="header__menu-link"
+                    (click)="scrollToSection($event, item.link)">
+                        {{ item.label }}
+                    </a>
+                </li>
+                }
+            </ul>
+        </nav>
+
+        <!--CTA BUTTON DESKTOP-->
+        <div>
+            <a href="#form" class="btn-primary"
+               (click)="scrollToSection($event, 'form')">
+                Falar com Especialista
+            </a>
+        </div>
+
+        <!--MOBILE MENU BUTTON-->
+        <button class="header__mobile-toggle"
+                (click)="toggleMobileMenu()"
+                [attr.aria-expanded]="mobileMenuOpen()"
+                aria-label="Toggle menu">
+            <span class="header__mobile-toggle-icon"
+            [class.header__mobile-toggle-icon--open]="mobileMenuOpen()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </button>
+    </div>
+
+    <div class="header__mobile-menu" [class.header__mobile-menu--open]="mobileMenuOpen()">
+        <nav class="header__mobile-nav">
+            <ul class="header__mobile-menu-list">
+                @for (item of menuItems; track item.link){
+                <li class="header__mobile-menu-item">
+                    <a [href]="item.link"
+                       class="header__mobile-menu-link"
+                       (click)="scrollToSection($event, item.link)"
+                    >
+                    {{ item.label }}
+                    </a>
+                </li>
+                }
+            </ul>
+
+            <div class="header__mobile-cta">
+                <a
+                    href="#form"
+                class="btn-primary w-full"
+                    (click)="scrollToSection($event, 'form')">
+                    Falar com Especialista
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!--Mobile overlay-->
+    @if (mobileMenuOpen()) {
+        <div class="header__overlay"
+        (click)="closeMobileMenu()"
+    ></div>
+    }
+</header>

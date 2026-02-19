@@ -1,0 +1,43 @@
+<section class="section split-background">
+    <div class="container">
+
+        <div class="text-center mb-3xl animate-fade-in">
+            <span class="badge-pill mb-md">COMO FUNCIONA</span>
+            <h2 class="heading-2">
+                Por dentro da <span class="text-gradient">performance</span> da Waiva
+            </h2>
+        </div>
+
+        <div class="cards-grid">
+            @for (block of operationBlocks(); track block.title; let i = $index) {
+                <article
+                        class="tech-card animate-fade-in-up"
+                        [style.animation-delay]="(i * 100) + 'ms'">
+
+                    <div class="card-header">
+                        <div class="icon-blob">
+                            <i [class]="block.icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="heading-5 mb-sm">{{ block.title }}</h3>
+                        <p class="text-body text-sm mb-0">
+                            {{ block.description }}
+                        </p>
+
+                        @if (block.subDescription) {
+                            <div class="separator"></div>
+                            <p class="text-xs text-gray mt-sm">
+                                {{ block.subDescription }}
+                            </p>
+                        }
+                    </div>
+
+                    <div class="hover-line"></div>
+                </article>
+            }
+        </div>
+
+    </div>
+</section>

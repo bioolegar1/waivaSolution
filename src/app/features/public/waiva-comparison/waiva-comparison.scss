@@ -1,0 +1,168 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'animations' as *;
+
+// Container flexível que centraliza os cards
+.comparison-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: spacing('xl');
+  padding: spacing('xl') 0;
+
+  // No Desktop, eles ficam lado a lado com sobreposição
+  @include respond-to('lg') {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0; // Remove gap para permitir sobreposição controlada
+  }
+}
+
+// Estilo Base do Card
+.compare-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: map.get($border-radius, '2xl');
+  padding: spacing('2xl');
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+// === CARD ANTES (O Problema) ===
+.card-before {
+  background-color: #f1f5f9; // Cinza muito claro (Slate-100)
+  border: 1px solid #cbd5e1; // Borda cinza
+  color: color('gray');
+  z-index: 1;
+
+  // No desktop, inclinamos levemente para trás ou diminuímos
+  @include respond-to('lg') {
+    margin-right: -40px; // Entra "embaixo" do card azul
+    transform: scale(0.95);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .card-header {
+    border-bottom: 1px solid #cbd5e1;
+    margin-bottom: spacing('xl');
+    padding-bottom: spacing('lg');
+  }
+
+  .stat-number {
+    color: color('dark-gray');
+  }
+}
+
+// === CARD DEPOIS (A Solução) ===
+.card-after {
+  // Gradiente vibrante
+  background: linear-gradient(135deg, color('primary') 0%, color('primary-dark') 100%);
+  color: color('white');
+  z-index: 10; // Fica por cima
+  box-shadow: 0 25px 50px -12px rgba(color('primary'), 0.5); // Sombra colorida difusa
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  @include respond-to('lg') {
+    transform: scale(1.05); // Maior que o outro
+    margin-left: -20px; // Sobrepõe o cinza
+  }
+
+  .card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: spacing('xl');
+    padding-bottom: spacing('lg');
+  }
+
+  .stat-number {
+    color: color('white');
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .stat-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+}
+
+// Tipografia Interna
+.card-title {
+  font-size: font-size('lg');
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: spacing('md');
+  opacity: 0.8;
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 3rem; // 48px
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: spacing('xs');
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: font-size('sm');
+  font-weight: 500;
+}
+
+// Lista de Pontos
+.points-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: spacing('md');
+}
+
+.point-item {
+  display: flex;
+  align-items: flex-start;
+  gap: spacing('md');
+  line-height: 1.5;
+}
+
+// Ícones (Checks e X)
+.icon-box {
+  flex-shrink: 0; // Não deixa o ícone amassar
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+
+  &.icon-negative {
+    background-color: #cbd5e1;
+    color: color('gray');
+  }
+
+  &.icon-positive {
+    background-color: color('white');
+    color: color('primary');
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+}
+
+// Brilho decorativo no card azul
+.glow-effect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(255,255,255,0.15), transparent 40%);
+  pointer-events: none;
+}

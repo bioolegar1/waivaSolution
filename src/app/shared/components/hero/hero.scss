@@ -1,0 +1,193 @@
+@use 'sass:map';
+@use 'sass:color';
+@use 'variables' as *;
+
+.hero {
+  position: relative;
+  background-color: color('bg-primary');
+  padding: spacing('5xl') 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  @media (max-width: breakpoint('md')) {
+    // Aumentamos o padding superior para o conteúdo não ficar atrás do header
+    // e reduzimos o inferior para manter o equilíbrio
+    padding: spacing('6xl') spacing('md') spacing('2xl') spacing('md');
+    align-items: flex-start;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -10%; left: -5%;
+    width: 40%; height: 40%;
+    background: radial-gradient(circle, rgba(color('primary'), 0.15) 0%, transparent 70%);
+    filter: blur(60px);
+    z-index: 0;
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: spacing('4xl');
+    align-items: center;
+
+    @media (max-width: breakpoint('lg')) {
+      grid-template-columns: 1fr;
+      gap: spacing('3xl');
+    }
+  }
+}
+
+.hero-content {
+  .fixed-headline {
+    color: color('dark');
+    font-size: map.get($font-sizes, '2xl');
+    line-height: 1.4;
+    margin-bottom: spacing('lg');
+
+    @media (max-width: breakpoint('md')) {
+      font-size: map.get($font-sizes, 'xl');
+      text-align: center;
+    }
+
+    .weight-bold { font-weight: 800; }
+    .text-error { color: color('error'); }
+  }
+
+  .animated-subheadline {
+    color: color('dark');
+    font-size: map.get($font-sizes, '5xl');
+    font-weight: 800;
+    line-height: 1.1;
+
+    @media (max-width: breakpoint('md')) {
+      font-size: map.get($font-sizes, '3xl');
+      text-align: center;
+    }
+
+    .rotating-text-wrapper {
+      height: 1.2em; position: relative; overflow: hidden; margin-top: spacing('xs');
+    }
+
+    .rotating-phrase {
+      position: absolute; top: 0; left: 0; width: 100%;
+      color: color('primary');
+      opacity: 0; transform: translateY(100%);
+      transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+
+      &.active { opacity: 1; transform: translateY(0); }
+      &:not(.active) { transform: translateY(-100%); }
+    }
+  }
+}
+
+.hero-card-premium.branded-border {
+  background: color('white');
+  // Reduzido o padding superior e inferior para 1.5rem (xl) e mantido lateral em 3rem (3xl)
+  padding: spacing('xl') spacing('3xl');
+  border-radius: map.get($border-radius, '2xl');
+  border: 4px solid color('primary');
+  box-shadow: 0 30px 60px -15px rgba(color('primary'), 0.15);
+  transition: transform 0.3s ease;
+
+  @media (max-width: breakpoint('md')) {
+    padding: spacing('lg') spacing('xl');
+  }
+
+  .card-header {
+    text-align: center;
+    margin-bottom: spacing('lg'); // Reduzido de 2xl para lg
+    h3 { font-size: 1.35rem; font-weight: 800; color: color('dark'); }
+    p { font-size: 0.85rem; color: color('gray'); }
+  }
+
+  .input-group {
+    margin-bottom: spacing('md'); // Reduzido de lg para md
+    label {
+      display: block;
+      font-size: 0.75rem; // Reduzido levemente
+      font-weight: 700;
+      color: color('dark-gray');
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    input {
+      width: 100%;
+      height: 50px; // Reduzido de 56px para 50px
+      padding: 0 spacing('md');
+      background-color: color('bg-secondary');
+      border: 1px solid color('light-gray');
+      border-radius: map.get($border-radius, 'md');
+      font-size: 0.95rem;
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        outline: none;
+        border-color: color('primary');
+        background-color: color('white');
+        box-shadow: 0 0 0 4px rgba(color('primary'), 0.1);
+      }
+    }
+  }
+
+  .btn-submit-premium {
+    width: 100%;
+    height: 56px;
+    background: linear-gradient(135deg, color('primary') 0%, color.adjust(color('primary'), $lightness: 10%) 100%);
+    color: color('white');
+    border: none;
+    border-radius: map.get($border-radius, 'md');
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(color('primary'), 0.3);
+
+    // Aplicação da animação de pulso
+    animation: buttonPulse 2s infinite;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(color('primary'), 0.4);
+      animation: none; // Para a animação no hover para facilitar o clique
+    }
+
+    &:disabled {
+      background: color('light-gray');
+      cursor: not-allowed;
+      box-shadow: none;
+      animation: none;
+    }
+  }
+
+  .secure-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: spacing('md');
+    font-size: 0.75rem;
+    color: color('gray');
+    svg { width: 14px; color: color('primary'); }
+  }
+}
+
+// Animação de pulso para chamar atenção para o CTA
+@keyframes buttonPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 10px 20px rgba(color('primary'), 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 15px 25px rgba(color('primary'), 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 20px rgba(color('primary'), 0.3);
+  }
+}
