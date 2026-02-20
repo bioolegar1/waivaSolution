@@ -1,9 +1,13 @@
-<section class="section split-background">
-    <div class="container">
+<section class="section-operations">
+    <div class="split-background-angled"></div>
 
-        <div class="text-center mb-3xl animate-fade-in">
-            <span class="badge-pill mb-md">COMO FUNCIONA</span>
-            <h2 class="heading-2">
+    <div class="container relative z-10">
+
+        <div class="text-center mb-3xl animate-fade-in" style="margin-bottom: 4rem;">
+        <span class="badge-pill mb-md">
+            <i class="bi bi-gear-wide-connected" style="margin-right: 6px;"></i> COMO FUNCIONA
+        </span>
+            <h2 class="heading-2" style="margin-top: 1rem;">
                 Por dentro da <span class="text-gradient">performance</span> da Waiva
             </h2>
         </div>
@@ -11,30 +15,28 @@
         <div class="cards-grid">
             @for (block of operationBlocks(); track block.title; let i = $index) {
                 <article
-                        class="tech-card animate-fade-in-up"
-                        [style.animation-delay]="(i * 100) + 'ms'">
+                    #cardRef
+                    class="tech-card"
+                    [style.animation-delay]="(i * 150) + 'ms'">
 
-                    <div class="card-header">
-                        <div class="icon-blob">
-                            <i [class]="block.icon"></i>
-                        </div>
+                    <div class="icon-blob-pulse">
+                        <i [class]="block.icon"></i>
                     </div>
 
-                    <div class="card-body">
-                        <h3 class="heading-5 mb-sm">{{ block.title }}</h3>
-                        <p class="text-body text-sm mb-0">
-                            {{ block.description }}
+                    <h3 class="heading-4 mb-sm">{{ block.title }}</h3>
+
+                    <div class="separator-gradient"></div>
+
+                    <p class="text-body">{{ block.description }}</p>
+
+                    @if (block.subDescription) {
+                        <p class="text-body text-sm mt-sm" style="opacity: 0.8;">
+                            {{ block.subDescription }}
                         </p>
+                    }
 
-                        @if (block.subDescription) {
-                            <div class="separator"></div>
-                            <p class="text-xs text-gray mt-sm">
-                                {{ block.subDescription }}
-                            </p>
-                        }
-                    </div>
-
-                    <div class="hover-line"></div>
+                    <div class="hover-line-gradient"></div>
+                    <div class="card-shine"></div>
                 </article>
             }
         </div>

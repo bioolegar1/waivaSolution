@@ -9,14 +9,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: spacing('xl');
+  // LÓGICA MOBILE: Removemos o gap para conectar os dois cards visualmente
+  gap: 0;
   padding: spacing('xl') 0;
 
-  // No Desktop, eles ficam lado a lado com sobreposição
+  // LÓGICA DESKTOP: Mantém o padrão original
   @include respond-to('lg') {
     flex-direction: row;
     align-items: stretch;
-    gap: 0; // Remove gap para permitir sobreposição controlada
   }
 }
 
@@ -25,26 +25,44 @@
   width: 100%;
   max-width: 500px;
   border-radius: map.get($border-radius, '2xl');
-  padding: spacing('2xl');
+
+  // LÓGICA MOBILE: Padding menor para telas pequenas
+  padding: spacing('xl') spacing('lg');
+
   display: flex;
   flex-direction: column;
   position: relative;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  @include respond-to('lg') {
+    // LÓGICA DESKTOP: Restaura o padding original de 2xl
+    padding: spacing('2xl');
+  }
 }
 
 // === CARD ANTES (O Problema) ===
 .card-before {
-  background-color: #f1f5f9; // Cinza muito claro (Slate-100)
-  border: 1px solid #cbd5e1; // Borda cinza
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
   color: color('gray');
   z-index: 1;
 
-  // No desktop, inclinamos levemente para trás ou diminuímos
+  // LÓGICA MOBILE: Achata a base do card para ele entrar por baixo do card azul
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+  padding-bottom: spacing('3xl'); // Dá um respiro extra porque o card azul vai subir sobre ele
+
   @include respond-to('lg') {
-    margin-right: -40px; // Entra "embaixo" do card azul
+    // LÓGICA DESKTOP: Restaura toda a sua configuração original
+    margin-right: -40px;
+    margin-bottom: 0;
+    padding-bottom: spacing('2xl');
     transform: scale(0.95);
+    border-bottom: 1px solid #cbd5e1; // Devolve a borda inferior
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-bottom-left-radius: map.get($border-radius, '2xl'); // Arredonda a base esquerda novamente
   }
 
   .card-header {
@@ -60,16 +78,22 @@
 
 // === CARD DEPOIS (A Solução) ===
 .card-after {
-  // Gradiente vibrante
   background: linear-gradient(135deg, color('primary') 0%, color('primary-dark') 100%);
   color: color('white');
-  z-index: 10; // Fica por cima
-  box-shadow: 0 25px 50px -12px rgba(color('primary'), 0.5); // Sombra colorida difusa
+  z-index: 10;
+  // LÓGICA MOBILE: Sombra levemente menor
+  box-shadow: 0 15px 30px -10px rgba(color('primary'), 0.4);
   border: 1px solid rgba(255, 255, 255, 0.1);
 
+  // LÓGICA MOBILE: Puxa o card para cima, sobrepondo o card cinza
+  margin-top: -20px;
+
   @include respond-to('lg') {
-    transform: scale(1.05); // Maior que o outro
-    margin-left: -20px; // Sobrepõe o cinza
+    // LÓGICA DESKTOP: Restaura toda a sua configuração original
+    margin-top: 0;
+    transform: scale(1.05);
+    margin-left: -20px;
+    box-shadow: 0 25px 50px -12px rgba(color('primary'), 0.5);
   }
 
   .card-header {
@@ -90,12 +114,18 @@
 
 // Tipografia Interna
 .card-title {
-  font-size: font-size('lg');
+  // LÓGICA MOBILE: Fonte base
+  font-size: font-size('base');
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: spacing('md');
   opacity: 0.8;
+
+  @include respond-to('lg') {
+    // LÓGICA DESKTOP: Fonte grande
+    font-size: font-size('lg');
+  }
 }
 
 .stat-block {
@@ -104,11 +134,17 @@
 }
 
 .stat-number {
-  font-size: 3rem; // 48px
+  // LÓGICA MOBILE: Reduz de 48px para ~35px (2.2rem) para não estourar a tela
+  font-size: 2.2rem;
   font-weight: 800;
   line-height: 1;
   margin-bottom: spacing('xs');
   letter-spacing: -0.02em;
+
+  @include respond-to('lg') {
+    // LÓGICA DESKTOP: Restaura os 48px
+    font-size: 3rem;
+  }
 }
 
 .stat-label {
@@ -123,19 +159,35 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: spacing('md');
+
+  // LÓGICA MOBILE: Menos espaço entre os itens no mobile
+  gap: spacing('sm');
+
+  @include respond-to('lg') {
+    // LÓGICA DESKTOP
+    gap: spacing('md');
+  }
 }
 
 .point-item {
   display: flex;
   align-items: flex-start;
   gap: spacing('md');
-  line-height: 1.5;
+
+  // LÓGICA MOBILE: Fonte ligeiramente menor
+  font-size: 0.9rem;
+  line-height: 1.4;
+
+  @include respond-to('lg') {
+    // LÓGICA DESKTOP
+    font-size: 1rem;
+    line-height: 1.5;
+  }
 }
 
 // Ícones (Checks e X)
 .icon-box {
-  flex-shrink: 0; // Não deixa o ícone amassar
+  flex-shrink: 0;
   width: 24px;
   height: 24px;
   border-radius: 50%;
