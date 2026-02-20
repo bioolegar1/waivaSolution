@@ -14,8 +14,8 @@
                 <div class="rotating-text-wrapper">
                     @for (phrase of phrases; track $index) {
                         <span class="rotating-phrase" [class.active]="$index === activePhraseIndex()">
-              {{ phrase }}
-            </span>
+                            {{ phrase }}
+                        </span>
                     }
                 </div>
             </h1>
@@ -23,37 +23,65 @@
 
         <div class="hero-card-container">
             <div class="hero-card-premium branded-border">
-                <div class="card-header">
-                    <h3>Fale com um especialista</h3>
-                    <p>Diagnóstico estratégico em poucos minutos.</p>
-                </div>
 
-                <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
-                    <div class="input-group">
-                        <label for="nome">Nome</label>
-                        <input #nameInput id="nome" type="text" formControlName="nome" placeholder="Seu nome">
+                @if (!submissionSuccess()) {
+                    <div class="card-header">
+                        <h3>Fale com um especialista</h3>
+                        <p>Diagnóstico estratégico em poucos minutos.</p>
                     </div>
 
-                    <div class="input-group">
-                        <label for="email">E-mail Corporativo</label>
-                        <input id="email" type="email" formControlName="email" placeholder="email@empresa.com">
-                    </div>
+                    <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
+                        <div class="input-group">
+                            <label for="nome">Nome</label>
+                            <input #nameInput id="nome" type="text" formControlName="nome" placeholder="Seu nome">
+                        </div>
 
-                    <div class="input-group">
-                        <label for="contato">WhatsApp</label>
-                        <input id="contato" type="text" formControlName="contato"
-                               placeholder="(99) 99999-9999" (input)="onPhoneInput($event)" maxlength="15">
-                    </div>
+                        <div class="input-group">
+                            <label for="email">E-mail Corporativo</label>
+                            <input id="email" type="email" formControlName="email" placeholder="email@empresa.com">
+                        </div>
 
-                    <button type="submit" class="btn-submit-premium" [disabled]="leadForm.invalid">
-                        Enviar Solicitação
-                    </button>
+                        <div class="input-group">
+                            <label for="contato">Contato</label>
+                            <input id="contato" type="text" formControlName="contato"
+                                   placeholder="(99) 99999-9999" (input)="onPhoneInput($event)" maxlength="15">
+                        </div>
 
-                    <div class="secure-footer">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        <span>Dados protegidos pela Waiva</span>
+                        @if (isSubmitting()) {
+                            <div class="progress-container">
+                                <div class="progress-fill" [style.width.%]="uploadProgress()"></div>
+                                <span class="progress-text">
+                                    Enviando dados... {{ uploadProgress() }}%
+                                </span>
+                            </div>
+                        } @else {
+                            <button type="submit" class="btn-submit-premium" [disabled]="leadForm.invalid">
+                                Enviar Solicitação
+                            </button>
+                        }
+
+                        <div class="secure-footer">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <span>Dados protegidos pela Waiva</span>
+                        </div>
+                    </form>
+                } @else {
+                    <div class="success-state">
+                        <div class="success-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Dados enviados com sucesso!</h3>
+                        <p>Um especialista vai entrar em contato o mais breve possível.</p>
+
+                        <button type="button" class="btn-submit-premium" (click)="resetFormState()" style="margin-top: 2rem;">
+                            Voltar
+                        </button>
                     </div>
-                </form>
+                }
+
             </div>
         </div>
     </div>

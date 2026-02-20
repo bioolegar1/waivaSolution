@@ -1,159 +1,204 @@
 @use 'sass:map';
-@use 'sass:color';
+@use 'sass:color' as color-module;
 @use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================
+// HERO SECTION
+// ============================================
 
 .hero {
   position: relative;
   background-color: color('bg-primary');
-  padding: spacing('5xl') 0;
+
+  // CORREÇÃO 1: Cálculo dinâmico para empurrar o conteúdo para baixo do Header (80px)
+  padding: calc(80px + #{spacing('3xl')}) spacing('md') spacing('4xl') spacing('md');
   min-height: 100vh;
-  display: flex;
-  align-items: center;
+
+  // CORREÇÃO 2: Block no mobile respeita a altura real dos elementos e evita sobreposição no eixo Y
+  display: block;
   overflow: hidden;
 
-  @media (max-width: breakpoint('md')) {
-    // Aumentamos o padding superior para o conteúdo não ficar atrás do header
-    // e reduzimos o inferior para manter o equilíbrio
-    padding: spacing('6xl') spacing('md') spacing('2xl') spacing('md');
-    align-items: flex-start;
+  @include respond-to('lg') {
+    // No desktop temos espaço, então o flex center funciona perfeitamente
+    padding: calc(80px + #{spacing('5xl')}) 0 spacing('5xl') 0;
+    display: flex;
+    align-items: center;
   }
 
   .hero-glow {
+    $primary: map.get($colors, 'primary');
     position: absolute;
-    top: -10%; left: -5%;
-    width: 40%; height: 40%;
-    background: radial-gradient(circle, rgba(color('primary'), 0.15) 0%, transparent 70%);
+    top: 0; // Ajustado para não vazar pro header
+    left: -10%;
+    width: 80%; // Maior espalhamento no mobile
+    height: 60%;
+    background: radial-gradient(circle, rgba($primary, 0.15) 0%, transparent 70%);
     filter: blur(60px);
     z-index: 0;
+
+    @include respond-to('lg') {
+      top: -10%;
+      left: -5%;
+      width: 40%;
+      height: 40%;
+    }
   }
 
   .hero-grid {
     position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: spacing('4xl');
-    align-items: center;
+    z-index: z-index('base');
 
-    @media (max-width: breakpoint('lg')) {
-      grid-template-columns: 1fr;
-      gap: spacing('3xl');
+    // CORREÇÃO 3: Flex column empilha os itens de forma segura, garantindo a margem entre texto e formulário
+    display: flex;
+    flex-direction: column;
+    gap: spacing('3xl');
+    width: 100%;
+
+    @include respond-to('lg') {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr; // Proporção ideal para o desktop
+      gap: spacing('4xl');
+      align-items: center;
     }
   }
 }
 
+// ============================================
+// TYPOGRAPHY (Hero Content)
+// ============================================
+
 .hero-content {
+  text-align: center;
+
+  @include respond-to('lg') {
+    text-align: left;
+  }
+
   .fixed-headline {
     color: color('dark');
-    font-size: map.get($font-sizes, '2xl');
-    line-height: 1.4;
+    font-size: font-size('xl');
+    line-height: map.get($line-heights, 'tight');
     margin-bottom: spacing('lg');
 
-    @media (max-width: breakpoint('md')) {
-      font-size: map.get($font-sizes, 'xl');
-      text-align: center;
+    @include respond-to('md') {
+      font-size: font-size('2xl');
     }
 
-    .weight-bold { font-weight: 800; }
+    .weight-bold { font-weight: font-weight('extrabold'); }
     .text-error { color: color('error'); }
   }
 
   .animated-subheadline {
     color: color('dark');
-    font-size: map.get($font-sizes, '5xl');
-    font-weight: 800;
-    line-height: 1.1;
+    font-size: font-size('3xl');
+    font-weight: font-weight('extrabold');
+    line-height: map.get($line-heights, 'tight');
 
-    @media (max-width: breakpoint('md')) {
-      font-size: map.get($font-sizes, '3xl');
-      text-align: center;
+    @include respond-to('md') {
+      font-size: font-size('5xl');
     }
 
     .rotating-text-wrapper {
-      height: 1.2em; position: relative; overflow: hidden; margin-top: spacing('xs');
+      // Aumentado levemente para 1.4em para não cortar a base das letras no mobile
+      height: 1.4em;
+      position: relative;
+      overflow: hidden;
+      margin-top: spacing('xs');
+      display: block;
     }
 
     .rotating-phrase {
-      position: absolute; top: 0; left: 0; width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
       color: color('primary');
-      opacity: 0; transform: translateY(100%);
-      transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all transition('slow') easing('bounce');
 
-      &.active { opacity: 1; transform: translateY(0); }
-      &:not(.active) { transform: translateY(-100%); }
+      &.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      &:not(.active) {
+        transform: translateY(-100%);
+      }
     }
   }
 }
 
-.hero-card-premium.branded-border {
-  background: color('white');
-  // Reduzido o padding superior e inferior para 1.5rem (xl) e mantido lateral em 3rem (3xl)
-  padding: spacing('xl') spacing('3xl');
-  border-radius: map.get($border-radius, '2xl');
-  border: 4px solid color('primary');
-  box-shadow: 0 30px 60px -15px rgba(color('primary'), 0.15);
-  transition: transform 0.3s ease;
+// ============================================
+// CARD PREMIUM & FORMULÁRIO
+// ============================================
 
-  @media (max-width: breakpoint('md')) {
-    padding: spacing('lg') spacing('xl');
+.hero-card-premium {
+  @include card;
+  border: 4px solid color('primary');
+  padding: spacing('lg') spacing('xl');
+
+  @include respond-to('md') {
+    padding: spacing('xl') spacing('3xl');
   }
 
   .card-header {
     text-align: center;
-    margin-bottom: spacing('lg'); // Reduzido de 2xl para lg
-    h3 { font-size: 1.35rem; font-weight: 800; color: color('dark'); }
-    p { font-size: 0.85rem; color: color('gray'); }
+    margin-bottom: spacing('lg');
+
+    h3 {
+      font-size: font-size('xl');
+      font-weight: font-weight('extrabold');
+      color: color('dark');
+    }
+
+    p {
+      font-size: font-size('sm');
+      color: color('gray');
+    }
   }
 
   .input-group {
-    margin-bottom: spacing('md'); // Reduzido de lg para md
+    margin-bottom: spacing('md');
+
     label {
       display: block;
-      font-size: 0.75rem; // Reduzido levemente
-      font-weight: 700;
+      font-size: font-size('xs');
+      font-weight: font-weight('bold');
       color: color('dark-gray');
-      margin-bottom: 4px;
+      margin-bottom: spacing('xs');
       text-transform: uppercase;
     }
+
     input {
       width: 100%;
-      height: 50px; // Reduzido de 56px para 50px
+      height: 50px;
       padding: 0 spacing('md');
       background-color: color('bg-secondary');
       border: 1px solid color('light-gray');
       border-radius: map.get($border-radius, 'md');
-      font-size: 0.95rem;
-      transition: all 0.2s ease-in-out;
+      font-size: font-size('sm');
+      transition: all transition('base') easing('smooth');
 
       &:focus {
         outline: none;
         border-color: color('primary');
         background-color: color('white');
-        box-shadow: 0 0 0 4px rgba(color('primary'), 0.1);
+        $primary-focus: map.get($colors, 'primary');
+        box-shadow: 0 0 0 4px rgba($primary-focus, 0.1);
       }
     }
   }
 
   .btn-submit-premium {
+    @include button-primary;
     width: 100%;
     height: 56px;
-    background: linear-gradient(135deg, color('primary') 0%, color.adjust(color('primary'), $lightness: 10%) 100%);
-    color: color('white');
-    border: none;
-    border-radius: map.get($border-radius, 'md');
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(color('primary'), 0.3);
-
-    // Aplicação da animação de pulso
+    font-size: font-size('lg');
     animation: buttonPulse 2s infinite;
-    transition: all 0.3s ease;
 
     &:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(color('primary'), 0.4);
-      animation: none; // Para a animação no hover para facilitar o clique
+      animation: none;
     }
 
     &:disabled {
@@ -165,29 +210,125 @@
   }
 
   .secure-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    @include flex-center;
+    gap: spacing('sm');
     margin-top: spacing('md');
-    font-size: 0.75rem;
+    font-size: font-size('xs');
     color: color('gray');
-    svg { width: 14px; color: color('primary'); }
+
+    svg {
+      width: 14px;
+      color: color('primary');
+    }
   }
 }
 
-// Animação de pulso para chamar atenção para o CTA
+// ============================================
+// BARRA DE PROGRESSO DE ENVIO
+// ============================================
+
+.progress-container {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  background-color: color('bg-secondary');
+  border: 1px solid color('light-gray');
+  border-radius: map.get($border-radius, 'md');
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  .progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+
+    $primary: map.get($colors, 'primary');
+    $primary-light: map.get($colors, 'primary-light');
+    background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+
+    transition: width 0.15s ease-out;
+    z-index: 1;
+  }
+
+  .progress-text {
+    position: relative;
+    z-index: 2;
+    font-size: font-size('sm');
+    font-weight: font-weight('bold');
+    color: color('dark');
+    mix-blend-mode: color-burn;
+  }
+}
+
+// ============================================
+// FEEDBACK DE SUCESSO
+// ============================================
+
+.success-state {
+  @include flex-column-center;
+  text-align: center;
+  padding: spacing('xl') 0;
+  animation: fadeIn transition('slow') easing('smooth') forwards;
+
+  .success-icon {
+    $primary-color: map.get($colors, 'primary');
+    width: 60px;
+    height: 60px;
+    background-color: rgba($primary-color, 0.1);
+    color: $primary-color;
+    border-radius: map.get($border-radius, 'full');
+    @include flex-center;
+    margin-bottom: spacing('lg');
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  h3 {
+    font-size: font-size('xl');
+    font-weight: font-weight('extrabold');
+    color: color('dark');
+    margin-bottom: spacing('sm');
+  }
+
+  p {
+    font-size: font-size('sm');
+    color: color('gray');
+    line-height: map.get($line-heights, 'relaxed');
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+
+// ============================================
+// KEYFRAMES ESPECÍFICOS DO HERO
+// ============================================
+
 @keyframes buttonPulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 10px 20px rgba(color('primary'), 0.3);
+    $primary-pulse: map.get($colors, 'primary');
+    box-shadow: 0 10px 20px rgba($primary-pulse, 0.3);
   }
   50% {
     transform: scale(1.02);
-    box-shadow: 0 15px 25px rgba(color('primary'), 0.5);
+    $primary-pulse: map.get($colors, 'primary');
+    box-shadow: 0 15px 25px rgba($primary-pulse, 0.5);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 10px 20px rgba(color('primary'), 0.3);
+    $primary-pulse: map.get($colors, 'primary');
+    box-shadow: 0 10px 20px rgba($primary-pulse, 0.3);
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

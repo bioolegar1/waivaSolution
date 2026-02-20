@@ -14,12 +14,19 @@ export class Hero implements OnInit, OnDestroy {
     private fb = inject(FormBuilder);
     private leadService = inject(LeadService);
 
-    // Referência reativa para o primeiro input do formulário
     nameInput = viewChild<ElementRef>('nameInput');
 
     phrases = ['aumentar eficiência.', 'evitar perdas.', 'dar previsibilidade.', 'ganhar escala.'];
     activePhraseIndex = signal(0);
     private rotationInterval: any;
+
+    isSubmitting = signal(false);
+    submissionSuccess = signal(false);
+    uploadProgress = signal(0);
+    private progressInterval: any;
+
+    // Definição do tempo de Rate Limit no Frontend (5 minutos em milissegundos)
+    private readonly RATE_LIMIT_MS = 5 * 60 * 1000;
 
     leadForm = this.fb.group({
         nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -28,12 +35,10 @@ export class Hero implements OnInit, OnDestroy {
     });
 
     ngOnInit() {
-        // Inicia a rotação do texto lateral
         this.rotationInterval = setInterval(() => {
             this.activePhraseIndex.update(i => (i + 1) % this.phrases.length);
         }, 3000);
 
-        // Aplica o foco automático após a renderização inicial
         setTimeout(() => {
             this.nameInput()?.nativeElement.focus();
         }, 500);
@@ -41,6 +46,7 @@ export class Hero implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         if (this.rotationInterval) clearInterval(this.rotationInterval);
+        if (this.progressInterval) clearInterval(this.progressInterval);
     }
 
     onPhoneInput(event: any) {
@@ -55,21 +61,88 @@ export class Hero implements OnInit, OnDestroy {
         this.leadForm.patchValue({contato: value});
     }
 
+    // Função que verifica o bloqueio no navegador
+    private checkRateLimit(): boolean {
+        const lastSubmission = localStorage.getItem('waiva_last_submission');
+        if (lastSubmission) {
+            const timePassed = Date.now() - parseInt(lastSubmission, 10);
+            if (timePassed < this.RATE_LIMIT_MS) {
+                const minutesLeft = Math.ceil((this.RATE_LIMIT_MS - timePassed) / 60000);
+                alert(`Por favor, aguarde ${minutesLeft} minuto(s) antes de enviar uma nova solicitação.`);
+                return false;
+            }
+        }
+        return true;
+    }
+
     onSubmit() {
-        if (this.leadForm.valid) {
+        // Antes de processar, verifica a trava do frontend
+        if (!this.checkRateLimit()) {
+            return;
+        }
+
+        if (this.leadForm.valid && !this.isSubmitting()) {
+
+            this.isSubmitting.set(true);
+            this.leadForm.disable();
+            this.uploadProgress.set(0);
+
+            this.progressInterval = setInterval(() => {
+                this.uploadProgress.update(val => {
+                    if (val >= 90) {
+                        clearInterval(this.progressInterval);
+                        return 90;
+                    }
+                    return val + 5;
+                });
+            }, 100);
+
             const rawData = {...this.leadForm.value};
             rawData.contato = rawData.contato?.replace(/\D/g, '');
 
-            // ADICIONE ESTA LINHA PARA TESTE [cite: 2025-12-08]
-            console.log('Dados saindo do Angular:', rawData);
-
             this.leadService.sendLead(rawData).subscribe({
-                next: () => {
-                    alert('Enviado!');
-                    this.leadForm.reset();
+                next: (response: any) => {
+                    clearInterval(this.progressInterval);
+                    this.uploadProgress.set(100);
+
+                    // Verifica se o Apps Script barrou a requisição pelo backend
+                    if (response && response.includes('"rateLimited":true')) {
+                        setTimeout(() => {
+                            this.isSubmitting.set(false);
+                            this.leadForm.enable();
+                            this.uploadProgress.set(0);
+                            alert('Limite de envios atingido para este e-mail. Tente novamente mais tarde.');
+                        }, 400);
+                        return;
+                    }
+
+                    // Se foi sucesso total, registra a hora no localStorage
+                    localStorage.setItem('waiva_last_submission', Date.now().toString());
+
+                    setTimeout(() => {
+                        this.isSubmitting.set(false);
+                        this.submissionSuccess.set(true);
+                    }, 400);
                 },
-                error: (err) => console.error('Erro:', err)
+                error: (err) => {
+                    console.error('Erro:', err);
+                    clearInterval(this.progressInterval);
+                    this.uploadProgress.set(0);
+                    this.isSubmitting.set(false);
+                    this.leadForm.enable();
+                }
             });
         }
+    }
+
+    resetFormState() {
+        this.leadForm.reset();
+        this.leadForm.enable();
+        this.submissionSuccess.set(false);
+        this.uploadProgress.set(0);
+
+        setTimeout(() => {
+            this.nameInput()?.nativeElement.focus();
+        }, 100);
     }
 }
