@@ -59,4 +59,27 @@ export class Header {
         }
         this.closeMobileMenu();
     }
+
+    // LÓGICA DE OFUSCAÇÃO:
+    // Dividimos o número em partes para que bots que procuram sequências de 11 a 13 dígitos
+    // não consigam encontrar o número no código final compilado.
+    private countryCode = '55';
+    private areaCode = '71';
+    private numberPart1 = '99649';
+    private numberPart2 = '1586';
+
+    public openWhatsAppSecurely(event: Event): void {
+        // Evita qualquer comportamento padrão do navegador
+        event.preventDefault();
+
+        // Remonta o número apenas no milissegundo em que o usuário real clica
+        const fullNumber = `${this.countryCode}${this.areaCode}${this.numberPart1}${this.numberPart2}`;
+        const message = 'Olá! Gostaria de falar com um especialista da Waiva.';
+
+        // Constrói a URL final
+        const url = `https://wa.me/${fullNumber}?text=${encodeURIComponent(message)}`;
+
+        // window.open atua como o target="_blank" e o 'noopener,noreferrer' garante a segurança da aba
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }
 }

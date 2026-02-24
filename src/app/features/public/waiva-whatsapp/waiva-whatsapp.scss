@@ -1,0 +1,84 @@
+@use 'sass:map';
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+// Cores oficiais da marca do WhatsApp
+$whatsapp-green: #25D366;
+$whatsapp-hover: #1EBE5D;
+
+.whatsapp-float-btn {
+  // A MÁGICA DO POSICIONAMENTO:
+  // position: fixed trava o elemento na tela, ignorando o scroll.
+  // bottom e right determinam a distância das bordas da tela.
+  position: fixed;
+  bottom: spacing('2xl');
+  right: spacing('2xl');
+  z-index: map.get($z-index, 'fixed'); // Garante que fique por cima de tudo
+
+  // Estética estrutural do botão circular
+  width: 60px;
+  height: 60px;
+  background-color: $whatsapp-green;
+  border-radius: map.get($border-radius, 'full');
+  color: color('white');
+  box-shadow: map.get($shadows, 'lg');
+
+  // Centraliza o ícone perfeitamente usando flexbox
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Transições para interações suaves e declaração da animação de pulso
+  transition: transform map.get($transitions, 'base') map.get($easings, 'smooth'),
+  background-color map.get($transitions, 'base') map.get($easings, 'smooth'),
+  box-shadow map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  animation: pulse-ring 2s infinite; // Roda a animação de "onda" em loop
+
+  // Interação do mouse (Hover)
+  &:hover {
+    background-color: $whatsapp-hover;
+    transform: translateY(-4px) scale(1.05); // Levanta e infla levemente
+    box-shadow: map.get($shadows, 'xl');
+    animation: none; // Pausa a onda para focar no clique
+  }
+
+  // Dimensionamento do SVG
+  .whatsapp-icon {
+    width: 32px;
+    height: 32px;
+    fill: currentColor;
+  }
+}
+
+// LÓGICA DA ANIMAÇÃO:
+// Cria uma sombra que começa opaca e vai se expandindo (15px) até ficar totalmente transparente,
+// simulando uma onda de radar emitindo a partir do botão.
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba($whatsapp-green, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba($whatsapp-green, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba($whatsapp-green, 0);
+  }
+}
+
+// LÓGICA RESPONSIVA (Mobile):
+// Em telas pequenas de celular, diminuímos o botão e o trazemos mais para perto da borda
+// para não atrapalhar a leitura do texto principal do site.
+@media (max-width: 640px) {
+  .whatsapp-float-btn {
+    width: 50px;
+    height: 50px;
+    bottom: spacing('lg');
+    right: spacing('lg');
+
+    .whatsapp-icon {
+      width: 26px;
+      height: 26px;
+    }
+  }
+}

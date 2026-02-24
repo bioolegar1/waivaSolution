@@ -7,11 +7,13 @@ import {WaivaComparison} from "@features/public/waiva-comparison/waiva-compariso
 import {WaivaPrice} from "@features/public/waiva-price/waiva-price";
 import {WaivaFaqComponent} from "@features/public/waiva-faq/waiva-faq";
 import {WaivaFooter} from "@features/public/waiva-footer/waiva-footer";
+import {RouterOutlet} from "@angular/router";
+import {WaivaWhatsapp} from "@features/public/waiva-whatsapp/waiva-whatsapp";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [Header, Hero, WaivaOperations, WaivaCapabilities, WaivaComparison, WaivaPrice, WaivaFaqComponent, WaivaFooter],
+    imports: [Header, Hero, WaivaOperations, WaivaCapabilities, WaivaComparison, WaivaPrice, WaivaFaqComponent, WaivaFooter, RouterOutlet, WaivaWhatsapp],
     templateUrl: './app.html',
     styleUrl: './app.scss'
 })

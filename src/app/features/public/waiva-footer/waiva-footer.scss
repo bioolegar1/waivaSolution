@@ -16,7 +16,6 @@
   padding-bottom: spacing('4xl');
 
   // LÓGICA DO GRID: Mantemos 3 colunas, mas ajustamos o peso.
-  // A Marca fica com 2 partes do espaço (2fr), Contato com 1 parte e Redes com 1 parte.
   @include respond-to('md') {
     grid-template-columns: 2fr 1fr 1fr;
   }
@@ -38,35 +37,87 @@
   }
 }
 
-// --- REDES SOCIAIS ---
+// --- CONTATO WHATSAPP (BOTÃO PÍLULA) ---
+// LÓGICA: Retirado de dentro do .footer-legal e colocado na raiz do arquivo.
+.footer-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: spacing('sm');
+
+  // Estado Normal
+  background-color: rgba(#25D366, 0.1);
+  color: #25D366;
+  border: 1px solid rgba(#25D366, 0.2);
+
+  padding: spacing('xs') spacing('md');
+  border-radius: map.get($border-radius, 'full');
+  text-decoration: none;
+  font-weight: map.get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  // LÓGICA DE CORREÇÃO DO ÍCONE GIGANTE:
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0;
+    fill: currentColor;
+    transition: transform 0.3s ease;
+  }
+
+  // Estado Interativo (Hover)
+  &:hover {
+    background-color: #25D366; // Fica totalmente sólido e chamativo
+    color: color('white');
+    transform: translateY(-4px) scale(1.05); // Sobe e infla simultaneamente
+    box-shadow: 0 10px 20px rgba(#25D366, 0.3); // Brilho verde neon
+
+    svg {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+}
+
+// --- REDES SOCIAIS (ÍCONES ANIMADOS) ---
 .social-icons-wrapper {
   display: flex;
   align-items: center;
-  gap: spacing('md'); // Espaçamento entre os ícones usando a variável do seu sistema
+  gap: spacing('md');
 }
 
 .social-icon {
-  // LÓGICA: O currentColor no SVG do HTML herda esta cor do CSS.
-  // Começa cinza e muda de cor suavemente no hover.
   color: color('gray');
-  width: 28px;
-  height: 28px;
-  display: inline-block;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  // Transição dupla: altera a cor e faz o ícone "pular" para cima
-  transition: color map.get($transitions, 'base') map.get($easings, 'smooth'),
-  transform map.get($transitions, 'base') map.get($easings, 'smooth');
+  // Cria um círculo de fundo muito sutil para delimitar a área de clique
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
 
-  &:hover {
-    color: color('primary-light'); // Brilha com a cor da marca
-    transform: translateY(-4px); // Efeito de elevação
-  }
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   svg {
-    width: 100%;
-    height: 100%;
-    // Garante que o preenchimento do vetor obedeça o CSS
+    width: 20px;
+    height: 20px;
     fill: currentColor;
+    transition: transform 0.3s ease;
+  }
+
+  // Lógica específica para injeção do DNA do Instagram
+  &.instagram-icon:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: color('white');
+    transform: translateY(-6px) scale(1.1);
+    box-shadow: 0 12px 24px rgba(#dc2743, 0.4);
+
+    svg {
+      transform: scale(1.15);
+    }
   }
 }
 

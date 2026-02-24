@@ -8,9 +8,7 @@
                         [style.animation-delay]="(i * 150) + 'ms'">
 
                     <div class="card-media mb-lg">
-                        <div class="placeholder-img" [style.background]="item.imageGradient">
-                            <span class="img-label">IMG REFERÊNCIA</span>
-                        </div>
+                        <img [src]="item.imageUrl" [alt]="item.imageAlt" loading="lazy" />
                     </div>
 
                     <div class="card-content">
