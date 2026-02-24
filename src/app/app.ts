@@ -4,11 +4,14 @@ import {Hero} from "@shared/components/hero/hero";
 import {WaivaOperations} from "@features/public/waiva-operations/waiva-operations";
 import {WaivaCapabilities} from "@features/public/waiva-capabilities/waiva-capabilities";
 import {WaivaComparison} from "@features/public/waiva-comparison/waiva-comparison";
+import {WaivaPrice} from "@features/public/waiva-price/waiva-price";
+import {WaivaFaqComponent} from "@features/public/waiva-faq/waiva-faq";
+import {WaivaFooter} from "@features/public/waiva-footer/waiva-footer";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [Header, Hero, WaivaOperations, WaivaCapabilities, WaivaComparison],
+    imports: [Header, Hero, WaivaOperations, WaivaCapabilities, WaivaComparison, WaivaPrice, WaivaFaqComponent, WaivaFooter],
     templateUrl: './app.html',
     styleUrl: './app.scss'
 })

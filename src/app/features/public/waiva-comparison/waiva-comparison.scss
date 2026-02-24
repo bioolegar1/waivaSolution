@@ -53,6 +53,20 @@
   border-bottom: none;
   padding-bottom: spacing('3xl'); // Dá um respiro extra porque o card azul vai subir sobre ele
 
+  // --- ADIÇÃO: Efeito Hover ---
+  &:hover {
+    // Mobile: Leve levantamento e sombra sutil
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px -10px rgba(color('gray'), 0.2);
+
+    @include respond-to('lg') {
+      // Desktop: Mantém a escala original (0.95) e adiciona o levantamento
+      transform: scale(0.95) translateY(-8px);
+      box-shadow: 0 15px 30px -12px rgba(color('gray'), 0.3);
+      border-color: color('gray');
+    }
+  }
+
   @include respond-to('lg') {
     // LÓGICA DESKTOP: Restaura toda a sua configuração original
     margin-right: -40px;
@@ -87,6 +101,20 @@
 
   // LÓGICA MOBILE: Puxa o card para cima, sobrepondo o card cinza
   margin-top: -20px;
+
+  // --- ADIÇÃO: Efeito Hover ---
+  &:hover {
+    // Mobile: Levanta mais e intensifica a sombra colorida
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -15px rgba(color('primary'), 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+
+    @include respond-to('lg') {
+      // Desktop: Mantém a escala original aumentada (1.05) e levanta
+      transform: scale(1.05) translateY(-12px);
+      box-shadow: 0 40px 80px -20px rgba(color('primary'), 0.6);
+    }
+  }
 
   @include respond-to('lg') {
     // LÓGICA DESKTOP: Restaura toda a sua configuração original

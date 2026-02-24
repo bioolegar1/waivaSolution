@@ -12,27 +12,29 @@ export class WaivaComparison {
 
   public readonly beforeData = signal<IComparisonCard>({
     title: 'Antes da Waiva',
-    highlight: '61 leads',
-    subHighlight: 'por dia, em média',
+    highlight: 'Processos limitados \n pela operação',
+    subHighlight: '...',
     theme: 'before',
     points: [
-      { text: 'Atendimento totalmente dependente de time humano', isPositive: false },
-      { text: 'Respostas lentas ou fora do horário comercial', isPositive: false },
-      { text: 'Leads quentes se perdiam por falta de retorno', isPositive: false },
-      { text: 'Escala limitada pelo número de pessoas disponíveis', isPositive: false }
+      { text: 'Cobranças manuais e desorganizadas', isPositive: false },
+      { text: 'Planilhas descentralizadas e sem padrão', isPositive: false },
+      { text: 'Falta de controle de métricas e resultados', isPositive: false },
+      { text: 'Tempo perdido com tarefas repetitivas', isPositive: false },
+      { text: 'Dificuldade para acompanhar inadimplência', isPositive: false }
     ]
   });
 
   public readonly afterData = signal<IComparisonCard>({
     title: 'Depois da Waiva',
-    highlight: '500+ leads',
-    subHighlight: 'processados por dia',
+    highlight: '+70%',
+    subHighlight: 'processos organizados e executados automaticamente',
     theme: 'after',
     points: [
-      { text: 'Automação no primeiro contato, triagem e organização', isPositive: true },
-      { text: 'Atendimento contínuo, independente de horário ou volume', isPositive: true },
-      { text: 'Crescimento sem contratar mais pessoas', isPositive: true },
-      { text: 'Sem gargalos operacionais', isPositive: true }
+      { text: 'Fluxos inteligentes de cobrança e recuperação financeira', isPositive: true },
+      { text: 'Planilhas, sistemas e relatórios integrados automaticamente', isPositive: true },
+      { text: 'Dashboards com métricas claras e acompanhamento em tempo real', isPositive: true },
+      { text: 'Organização de processos sem esforço operacional', isPositive: true },
+      { text: 'Escala com controle, previsibilidade e eficiência', isPositive: true }
     ]
   });
 }

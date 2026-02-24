@@ -1,0 +1,317 @@
+@use 'sass:map';
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+// ============================================================
+// WAIVA FAQ — Accordion section
+// ============================================================
+
+.waiva-faq-section {
+  @include container;
+  padding-top: spacing('5xl');
+  padding-bottom: spacing('5xl');
+  position: relative;
+  background-color: color('bg-primary');
+
+  // Overlay decorativo sutil
+  .faq-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+                    ellipse 80% 50% at 50% 100%,
+                    rgba(#6366f1, 0.04) 0%,
+                    transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+.faq-inner {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+
+// --- Cabeçalho ---
+
+.faq-header {
+  text-align: center;
+  margin-bottom: spacing('3xl');
+}
+
+.faq-eyebrow {
+  display: inline-block;
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color('primary');
+  margin-bottom: spacing('md');
+}
+
+.faq-title {
+  font-size: map.get($font-sizes, '4xl');
+  font-weight: map.get($font-weights, 'extrabold');
+  color: color('dark');
+  line-height: map.get($line-heights, 'tight');
+  margin: 0 0 spacing('md');
+
+  @media (max-width: 640px) {
+    font-size: map.get($font-sizes, '3xl');
+  }
+}
+
+.faq-title-accent {
+  // Texto do "Frequentes" com gradiente da marca
+  background: linear-gradient(135deg, color('bg-gradient-start'), color('bg-gradient-end'));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.faq-subtitle {
+  font-size: map.get($font-sizes, 'lg');
+  color: color('gray');
+  margin: 0;
+}
+
+
+// --- Lista de itens ---
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid color('light-gray');
+}
+
+
+// --- Item individual ---
+
+.faq-item {
+  border-bottom: 1px solid color('light-gray');
+
+  // Estado aberto
+  &.is-open {
+    .faq-question {
+      color: color('primary');
+
+      .faq-q-number {
+        color: color('primary');
+        background-color: rgba(#6366f1, 0.08);
+      }
+    }
+
+    .faq-icon {
+      background-color: color('primary');
+
+      // Rotaciona o ícone de "+" para "×"
+      &::before { transform: translateX(-50%) translateY(-50%) rotate(90deg); }
+      &::after  { transform: translateX(-50%) translateY(-50%) rotate(0deg); opacity: 0; }
+    }
+
+    .faq-answer {
+      grid-template-rows: 1fr;
+    }
+  }
+}
+
+
+// --- Botão da pergunta ---
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: spacing('md');
+  padding: spacing('lg') 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: color('dark');
+  transition: color map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  &:hover {
+    color: color('primary');
+
+    .faq-q-number {
+      color: color('primary');
+      background-color: rgba(#6366f1, 0.08);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid color('primary');
+    outline-offset: 4px;
+    border-radius: map.get($border-radius, 'sm');
+  }
+}
+
+.faq-q-number {
+  flex-shrink: 0;
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'bold');
+  color: color('gray');
+  background-color: color('lighter-gray');
+  border-radius: map.get($border-radius, 'md');
+  padding: 3px 7px;
+  letter-spacing: 0.05em;
+  transition:
+          color map.get($transitions, 'base') map.get($easings, 'smooth'),
+          background-color map.get($transitions, 'base') map.get($easings, 'smooth');
+}
+
+.faq-q-text {
+  flex: 1;
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'normal');
+
+  @include respond-to('md') {
+    font-size: map.get($font-sizes, 'lg');
+  }
+}
+
+// Ícone +/×
+.faq-icon {
+  flex-shrink: 0;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: map.get($border-radius, 'full');
+  background-color: color('lighter-gray');
+  transition:
+          background-color map.get($transitions, 'base') map.get($easings, 'smooth'),
+          transform map.get($transitions, 'base') map.get($easings, 'smooth');
+
+  // Linha horizontal
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 2px;
+    background-color: currentColor;
+    transition:
+            transform map.get($transitions, 'base') map.get($easings, 'smooth'),
+            opacity map.get($transitions, 'base') map.get($easings, 'smooth');
+  }
+
+  &::before {
+    width: 12px;
+    height: 2px;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  // Linha vertical (some ao abrir)
+  &::after {
+    width: 2px;
+    height: 12px;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 1;
+  }
+
+  // Herda cor do botão pai para o ícone usar no currentColor
+  color: color('gray');
+
+  .faq-item.is-open & {
+    color: color('white');
+  }
+}
+
+
+// --- Resposta (accordion com CSS grid trick) ---
+
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr; // Fechado: altura 0
+  transition: grid-template-rows 0.35s map.get($easings, 'smooth');
+
+  // Wrapper interno necessário para o grid trick funcionar
+  > * {
+    overflow: hidden;
+  }
+
+  p {
+    margin: 0 0 spacing('md');
+    font-size: map.get($font-sizes, 'base');
+    color: color('gray');
+    line-height: map.get($line-heights, 'relaxed');
+    padding-left: calc(#{spacing('md')} + 32px + #{spacing('md')}); // Alinha com o texto da pergunta
+
+    &:last-child { margin-bottom: spacing('lg'); }
+
+    @media (max-width: 640px) {
+      padding-left: 0;
+    }
+  }
+
+  // Lista de checkmarks dentro da resposta
+  .faq-check-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 spacing('md');
+    padding-left: calc(#{spacing('md')} + 32px + #{spacing('md')});
+
+    @media (max-width: 640px) {
+      padding-left: 0;
+    }
+
+    li {
+      position: relative;
+      padding-left: spacing('xl');
+      margin-bottom: spacing('sm');
+      font-size: map.get($font-sizes, 'sm');
+      color: color('gray');
+      line-height: map.get($line-heights, 'relaxed');
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        border-radius: map.get($border-radius, 'full');
+        background-color: rgba(#6366f1, 0.1);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236366f1'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 10px;
+        background-position: center;
+      }
+    }
+  }
+
+  // CTA button dentro da resposta da última pergunta
+  .faq-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: spacing('sm');
+    margin-left: calc(#{spacing('md')} + 32px + #{spacing('md')});
+    margin-bottom: spacing('lg');
+    padding: spacing('md') spacing('xl');
+    background: linear-gradient(135deg, color('bg-gradient-start'), color('bg-gradient-end'));
+    color: color('white');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
+    text-decoration: none;
+    border-radius: map.get($border-radius, 'lg');
+    box-shadow: map.get($shadows, 'md');
+    transition:
+            transform map.get($transitions, 'base') map.get($easings, 'smooth'),
+            box-shadow map.get($transitions, 'base') map.get($easings, 'smooth');
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: map.get($shadows, 'glow');
+    }
+
+    @media (max-width: 640px) {
+      margin-left: 0;
+    }
+  }
+}

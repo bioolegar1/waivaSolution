@@ -1,0 +1,326 @@
+@use 'sass:map';
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+// ============================================================
+// WAIVA PRICE SECTION
+// Desktop: 2 colunas lado a lado
+// Mobile:  1 card unificado vertical
+// ============================================================
+
+
+// --- 1. Utilitários de visibilidade ---
+
+.desktop-only {
+  @media (max-width: 1023px) { display: none !important; }
+}
+
+.mobile-only {
+  display: none !important;
+  @media (max-width: 1023px) { display: block !important; }
+}
+
+.mobile-flex-only {
+  display: none !important;
+  @media (max-width: 1023px) { display: flex !important; }
+}
+
+
+// --- 2. Seção e grid ---
+
+.waiva-price-section {
+  @include container;
+  padding-top: spacing('5xl');
+  padding-bottom: spacing('5xl');
+  position: relative;
+  background-color: color('bg-secondary');
+
+  .section-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+                    circle at 50% 0%,
+                    rgba(#6366f1, 0.05) 0%,
+                    transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  gap: 0; // Mobile: cards grudados, formando 1 card unificado
+
+  @include respond-to('lg') {
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing('2xl');
+    align-items: stretch;
+  }
+}
+
+
+// --- 3. Cards base ---
+
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: spacing('2xl');
+  box-shadow: map.get($shadows, 'md');
+  transition:
+          box-shadow map.get($transitions, 'base') map.get($easings, 'smooth'),
+          transform map.get($transitions, 'base') map.get($easings, 'smooth');
+}
+
+
+// --- 4. Card de destaque (gradiente) ---
+
+.card-highlight {
+  border: none;
+  color: color('white');
+  justify-content: space-between;
+
+  background-image: linear-gradient(
+                  135deg,
+                  color('bg-gradient-start'),
+                  color('bg-gradient-end'),
+                  color('bg-gradient-start')
+  );
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+
+  // Mobile: arredonda só o TOPO
+  border-radius: map.get($border-radius, 'xl') map.get($border-radius, 'xl') 0 0;
+
+  @include respond-to('lg') {
+    border-radius: map.get($border-radius, 'xl');
+    transition:
+            background-position 0.6s ease,
+            transform map.get($transitions, 'base') map.get($easings, 'smooth'),
+            box-shadow map.get($transitions, 'base') map.get($easings, 'smooth');
+
+    &.hover-lift-glow:hover {
+      transform: translateY(-8px);
+      box-shadow: map.get($shadows, 'glow');
+      background-position: 100% 50%;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    line-height: map.get($line-heights, 'tight');
+  }
+
+  .opacity-90 { opacity: 0.9; }
+
+  // Preço no desktop
+  .price-display {
+    .currency {
+      font-size: map.get($font-sizes, '3xl');
+      font-weight: map.get($font-weights, 'extrabold');
+      margin-right: spacing('sm');
+    }
+    .amount {
+      font-size: map.get($font-sizes, '7xl');
+      font-weight: map.get($font-weights, 'extrabold');
+      line-height: 1;
+    }
+    .period {
+      font-size: map.get($font-sizes, 'lg');
+      font-weight: map.get($font-weights, 'medium');
+      opacity: 0.9;
+      margin-left: spacing('xs');
+    }
+  }
+}
+
+
+// --- 5. Card de detalhes (branco) ---
+
+.card-details {
+  background-color: color('white');
+  justify-content: flex-start;
+  gap: spacing('lg');
+
+  // Mobile: arredonda só o FUNDO
+  border-radius: 0 0 map.get($border-radius, 'xl') map.get($border-radius, 'xl');
+
+  @include respond-to('lg') {
+    border-radius: map.get($border-radius, 'xl');
+    justify-content: space-between;
+    gap: 0;
+
+    &.hover-lift-shadow:hover {
+      transform: translateY(-5px);
+      box-shadow: map.get($shadows, 'xl');
+    }
+  }
+
+  // Lista de impacto
+  .impact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      position: relative;
+      margin-bottom: spacing('md');
+      font-size: map.get($font-sizes, 'sm');
+      line-height: map.get($line-heights, 'relaxed');
+
+      // Desktop: bolinha + texto cinza
+      padding-left: spacing('xl');
+      color: color('gray');
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        border-radius: map.get($border-radius, 'full');
+        background-color: color('primary');
+      }
+
+      // Mobile: check circular + texto escuro
+      @media (max-width: 1023px) {
+        padding-left: spacing('2xl');
+        color: color('dark');
+
+        &::before {
+          top: 50%;
+          transform: translateY(-50%);
+          width: 22px;
+          height: 22px;
+          background-color: rgba(#6366f1, 0.12);
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236366f1'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: 12px;
+          background-position: center;
+        }
+      }
+
+      &:last-child { margin-bottom: 0; }
+    }
+  }
+
+  // ── BANNER DE PREÇO (mobile only) ──────────────────────────
+  // Faixa escura que sangra até as bordas do card
+  .mobile-price-banner {
+    margin-left: -spacing('2xl');
+    margin-right: -spacing('2xl');
+    padding: spacing('lg') spacing('xl');
+    background: linear-gradient(135deg, color('primary-dark') 0%, color('bg-gradient-end') 100%);
+    color: color('white');
+
+    .mobile-price-label {
+      font-size: map.get($font-sizes, 'sm');
+      font-weight: map.get($font-weights, 'semibold');
+      opacity: 0.88;
+      margin: 0 0 spacing('sm') 0;
+      line-height: map.get($line-heights, 'normal');
+    }
+
+    // Linha do preço: "R$ 699 /mês" lado a lado
+    .mobile-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+
+      .currency {
+        font-size: map.get($font-sizes, '2xl');
+        font-weight: map.get($font-weights, 'extrabold');
+        line-height: 1;
+      }
+      .amount {
+        font-size: map.get($font-sizes, '5xl');
+        font-weight: map.get($font-weights, 'extrabold');
+        line-height: 1;
+      }
+      .period {
+        font-size: map.get($font-sizes, 'base');
+        font-weight: map.get($font-weights, 'medium');
+        opacity: 0.85;
+        align-self: flex-end;
+        padding-bottom: 4px;
+      }
+    }
+  }
+
+  // ── FEATURES COM FUNDO GRADIENTE (mobile only) ─────────────
+  .mobile-features {
+    list-style: none;
+    margin-left: -spacing('2xl');
+    margin-right: -spacing('2xl');
+    padding: spacing('lg') spacing('xl');
+    background: linear-gradient(135deg, color('bg-gradient-start') 0%, color('bg-gradient-end') 100%);
+
+    li {
+      position: relative;
+      padding-left: spacing('2xl');
+      margin-bottom: spacing('md');
+      font-size: map.get($font-sizes, 'sm');
+      color: rgba(#ffffff, 0.95);
+      line-height: map.get($line-heights, 'relaxed');
+
+      &:last-child { margin-bottom: 0; }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        border-radius: map.get($border-radius, 'full');
+        background-color: rgba(#ffffff, 0.2);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23ffffff'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z' clip-rule='evenodd'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 12px;
+        background-position: center;
+      }
+
+      strong { color: color('white'); font-weight: map.get($font-weights, 'bold'); }
+    }
+  }
+
+  // Alerta (desktop only)
+  .highlight-alert {
+    background-color: color('lighter-gray');
+    border-left: 4px solid color('primary');
+    padding: spacing('lg');
+    border-radius: map.get($border-radius, 'md');
+    transition: background-color 0.3s ease;
+
+    &:hover { background-color: #e2e8f0; }
+
+    .icon-warning {
+      width: 20px;
+      height: 20px;
+      color: color('warning');
+      margin-top: 2px;
+
+      &.pulse-animation {
+        animation: gentlePulse 2s infinite ease-in-out;
+      }
+    }
+  }
+
+  .details-footer {
+    border-top: 1px solid color('light-gray');
+    padding-top: spacing('lg');
+  }
+}
+
+
+// --- 6. Keyframes ---
+
+@keyframes gentlePulse {
+  0%   { transform: scale(1);    opacity: 1;   }
+  50%  { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(1);    opacity: 1;   }
+}

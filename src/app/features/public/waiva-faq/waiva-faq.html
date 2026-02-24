@@ -1,0 +1,55 @@
+<section class="waiva-faq-section">
+    <div class="faq-bg-overlay"></div>
+
+    <div class="faq-inner">
+
+        <div class="faq-header">
+            <span class="faq-eyebrow">Tire suas dúvidas</span>
+            <h2 class="faq-title">Perguntas <span class="faq-title-accent">Frequentes</span></h2>
+            <p class="faq-subtitle">Tudo que você precisa saber antes de começar.</p>
+        </div>
+
+        <div class="faq-list">
+
+            @for (item of faqs; track item.id) {
+
+                <div class="faq-item" [class.is-open]="item.isOpen">
+
+                    <button class="faq-question" [attr.aria-expanded]="item.isOpen" (click)="toggleAccordion(item)">
+                        <span class="faq-q-number">{{ item.id }}</span>
+                        <span class="faq-q-text">{{ item.question }}</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+
+                            @for (paragraph of item.paragraphsTop; track paragraph) {
+                                <p>{{ paragraph }}</p>
+                            }
+
+                            @if (item.checkList) {
+                                <ul class="faq-check-list">
+                                    @for (listItem of item.checkList; track listItem) {
+                                        <li>{{ listItem }}</li>
+                                    }
+                                </ul>
+                            }
+
+                            @if (item.paragraphsBottom) {
+                                @for (paragraph of item.paragraphsBottom; track paragraph) {
+                                    <p>{{ paragraph }}</p>
+                                }
+                            }
+
+                            @if (item.hasCta) {
+                                <a href="#contato" class="faq-cta-btn">Clique aqui e agende sua análise gratuita &rarr;</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            } </div>
+    </div>
+</section>

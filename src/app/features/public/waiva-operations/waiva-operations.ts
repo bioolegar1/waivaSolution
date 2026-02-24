@@ -24,18 +24,18 @@ export class WaivaOperations implements AfterViewInit, OnDestroy {
     {
       icon: 'bi bi-cpu',
       title: 'Automação Inteligente de Processos (RPA/IA)',
-      description: 'Eliminamos tarefas repetitivas com robôs que trabalham 24/7.',
-      subDescription: 'Desde triagem de e-mails até preenchimento de sistemas legados.'
+      description: 'Eliminamos tarefas repetitivas com Agentes inteligentes que trabalham 24/7.',
+      subDescription: 'Com uma abordagem personalizada, mantendo o tom humanizado em cada operação.'
     },
     {
       icon: 'bi bi-diagram-3',
-      title: 'Integração Total de Sistemas (APIs)',
-      description: 'Conectamos seu CRM, ERP e planilhas para que falem a mesma língua.',
-      subDescription: 'Adeus, cópia e cola. Seus dados fluem automaticamente.'
+      title: 'Integração de Sistemas',
+      description: 'Conectamos seus sistemas para que falem a mesma lingua.',
+      subDescription: 'Adeus copia e cola. Seus dados fluem automaticamente.'
     },
     {
       icon: 'bi bi-bar-chart-steps',
-      title: 'Workflows e Dashboards Preditivos',
+      title: 'Relatórios e métricas',
       description: 'Tenha visão em tempo real da sua operação e antecipe gargalos.',
       subDescription: 'Tomada de decisão baseada em dados, não em "feeling".'
     },
