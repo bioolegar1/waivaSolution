@@ -23,7 +23,7 @@ export class WaivaOperations implements AfterViewInit, OnDestroy {
   operationBlocks = signal<OperationBlock[]>([
     {
       icon: 'bi bi-cpu',
-      title: 'Automação Inteligente de Processos (RPA/IA)',
+      title: 'Automação Inteligente de Processos',
       description: 'Eliminamos tarefas repetitivas com Agentes inteligentes que trabalham 24/7.',
       subDescription: 'Com uma abordagem personalizada, mantendo o tom humanizado em cada operação.'
     },

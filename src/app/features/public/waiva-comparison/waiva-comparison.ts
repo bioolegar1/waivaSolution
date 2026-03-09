@@ -13,7 +13,7 @@ export class WaivaComparison {
   public readonly beforeData = signal<IComparisonCard>({
     title: 'Antes da Waiva',
     highlight: 'Processos limitados \n pela operação',
-    subHighlight: '...',
+    subHighlight: ' ',
     theme: 'before',
     points: [
       { text: 'Cobranças manuais e desorganizadas', isPositive: false },
